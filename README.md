@@ -4,11 +4,11 @@ This is an alternate version of RtMidi 6.0.0, which is a cross-platform library 
 
 Compared to the official RtMidi package, a "direct" API was added to access the raw devices under /dev directly (i.e. without an intermediary server such as Jack). Depending on the system the MIDI raw devices are commonly named /dev/midiX, /dev/midiX.Y, /dev/umidiX, /dev/umidiX.Y, or /dev/rmidiX.
 
-This version is running at least on FreeBSD 13+ but should work on other BSDs and Linux.
+This version works at least on FreeBSD 13+ but other BSDs and Linux should be supported.
 
 The "direct" API does not allow creating virtual ports. A common use case of this API is when one program has exclusive access to one MIDI device.
 
-For now, no filtering is done on MIDI-in bytes; they are sent "as it" to the RtMidi client.
+For now, no filtering is done on MIDI-in bytes; they are sent "as it" to the RtMidi client (TODO: split frames properly).
 
 ## How to build
 
