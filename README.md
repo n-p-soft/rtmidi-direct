@@ -1,4 +1,4 @@
-# RtMidi
+# RtMidi-direct
 
 This is an alternate version of RtMidi 6.0.0, which is a cross-platform library to access MIDI ports in C/C++.
 
