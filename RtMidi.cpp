@@ -5335,7 +5335,7 @@ void MidiOutAndroid :: sendMessage( const unsigned char *message, size_t size ) 
 #include <pthread.h>
 #include <time.h>
 #include <signal.h>
-#include <midi-reader/MidiReader.h>
+#include "MidiReader.cpp"
 
 struct DirectMidiData {
   int fdPort;
