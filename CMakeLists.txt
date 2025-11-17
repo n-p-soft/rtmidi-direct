@@ -15,7 +15,6 @@ set(CMAKE_CXX_EXTENSIONS OFF)
 
 # Add some system directories
 include_directories(SYSTEM /usr/local/include)
-include_directories(midi-reader)
 link_directories(SYSTEM /usr/local/lib)
 
 # Check for Jack (any OS)
