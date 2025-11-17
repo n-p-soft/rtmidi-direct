@@ -65,7 +65,7 @@ set(SO_VER "6")
 set(FULL_VER "6.0.0")
 
 # Init variables
-set(rtmidi_SOURCES RtMidi.cpp RtMidi.h rtmidi_c.cpp rtmidi_c.h midi-reader/MidiReader.cpp)
+set(rtmidi_SOURCES RtMidi.cpp RtMidi.h rtmidi_c.cpp rtmidi_c.h MidiReader.cpp)
 set(LINKLIBS)
 set(PUBLICLINKLIBS)
 set(INCDIRS)
