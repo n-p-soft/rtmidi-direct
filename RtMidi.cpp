@@ -5383,9 +5383,14 @@ static void *directMidiHandler( void *ptr )
   uint64_t timestamp, lastTime;
   unsigned char buf[32];
   int i, r;
+  MidiReader *reader;
+  MidiFrame *mf;
+  static const unsigned char to_skip[] = { 0xfe, 0 };
 
   wts.tv_sec = 0;
   wts.tv_nsec = 1000000;
+  reader = new MidiReader (MIDIR_EXPAND, to_skip);
+  reader->addSource (apiData->fdPort, 0);
 
   while (apiData->fdPort > -1) {
     if ( ! data->doInput) {
@@ -5393,14 +5398,15 @@ static void *directMidiHandler( void *ptr )
       continue;
     }
 
-    r = read( apiData->fdPort, buf, sizeof( buf ) );
-    if (r <= 0) {
-      nanosleep( &wts, NULL );
+    if ( ! reader->update ())
       continue;
-    }
 
-    for (i = 0; i < r; i++)
-        message.bytes.push_back( buf[i] );
+    mf = reader->getNext ();
+    if (mf == NULL)
+      continue;
+
+    for (i = 0; i < mf->len; i++)
+      message.bytes.push_back( mf->data[i] );
 
     // Calculate time stamp.
     clock_gettime( CLOCK_REALTIME, &ts );
@@ -5424,6 +5430,7 @@ static void *directMidiHandler( void *ptr )
     }
   }
 
+  delete (reader);
   pthread_exit( NULL );
   return ( NULL );
 }
