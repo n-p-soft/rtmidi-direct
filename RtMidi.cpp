@@ -5388,7 +5388,7 @@ static void *directMidiHandler( void *ptr )
   static const unsigned char to_skip[] = { 0xfe, 0 };
 
   wts.tv_sec = 0;
-  wts.tv_nsec = 1000000;
+  wts.tv_nsec = 500000;
   reader = new MidiReader (MIDIR_EXPAND, to_skip);
   reader->addSource (apiData->fdPort, 0);
 
@@ -5398,13 +5398,16 @@ static void *directMidiHandler( void *ptr )
       continue;
     }
 
-    if ( ! reader->update ())
+    if (reader->update ())
+      mf = reader->getNext ();
+    else
+      mf = NULL;
+    if (mf == NULL) {
+      nanosleep( &wts, NULL );
       continue;
+    }
 
-    mf = reader->getNext ();
-    if (mf == NULL)
-      continue;
-
+    message.clear ();
     for (i = 0; i < mf->len; i++)
       message.bytes.push_back( mf->data[i] );
 
@@ -5415,10 +5418,9 @@ static void *directMidiHandler( void *ptr )
       message.timeStamp = 0.0;
       data->firstMessage = false;
     }
-    else {
+    else
       message.timeStamp = (double) ( timestamp - lastTime ) * 0.001;
-      lastTime = timestamp;
-    }
+    lastTime = timestamp;
 
     // Send message
     if ( data->usingCallback )
