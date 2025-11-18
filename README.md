@@ -1,14 +1,16 @@
 # RtMidi-direct
 
+Last updated on 2025-11-18.
+
 This is an alternate version of RtMidi 6.0.0, which is a cross-platform library to access MIDI ports in C/C++.
 
-Compared to the official RtMidi package, a "direct" API was added to access the raw devices under /dev directly (i.e. without an intermediary server such as Jack). Depending on the system the MIDI raw devices are commonly named /dev/midiX, /dev/midiX.Y, /dev/umidiX, /dev/umidiX.Y, or /dev/rmidiX.
+Compared to the official RtMidi package, a "direct" API was added to access the raw devices under /dev directly, i.e. without an intermediary server such as Jack. Depending on the operating system, the MIDI raw devices are commonly named /dev/midiX, /dev/midiX.Y, /dev/umidiX, /dev/umidiX.Y, or /dev/rmidiX.
 
 This version works at least on FreeBSD 13+ but other BSDs and Linux should be supported.
 
 The "direct" API does not allow creating virtual ports. A common use case of this API is when one program has exclusive access to one MIDI device.
 
-For now, no filtering is done on MIDI-in bytes; they are sent "as it" to the RtMidi client (TODO: split frames properly).
+Incoming MIDI frames are parsed and checked, and running-status ones are expanded. Active-sensing frames are skipped.
 
 ## How to build
 
@@ -35,7 +37,7 @@ MIDI input and output functionality are separated into two classes, `RtMidiIn` a
 
 ## Legal and ethical
 
-The RtMidi license is similar to the MIT License, with the added *feature* that modifications be sent to the developer.  Please see [LICENSE](LICENSE).
+The RtMidi license is similar to the MIT License, with the added *feature* that modifications be sent to the developer.
 
 ## Authors
 
