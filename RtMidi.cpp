@@ -5407,7 +5407,7 @@ static void *directMidiHandler( void *ptr )
       continue;
     }
 
-    message.clear ();
+    message.bytes.clear ();
     for (i = 0; i < mf->len; i++)
       message.bytes.push_back( mf->data[i] );
 
